@@ -12,10 +12,11 @@ const response = await fetch(
 ).then((res) => res.json());
 
 const usernames: list = (await response).map((member) => member.user.username);
-fs.writeFile("./userlist", usernames.join("\n"), err => {
+// Outputs as a new name per line
+fs.writeFile("./userlist.csv", usernames.join("\n"), err => {
     if (err) {
         console.error(err)
     } else {
-        console.log("Output writen to file ./userlist")
+        console.log("Output writen to file ./userlist.csv")
     }
 })
