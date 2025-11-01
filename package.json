@@ -1,0 +1,14 @@
+{
+	"name": "list_discord_members",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node --env-file .env main.ts"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.17.1"
+}
