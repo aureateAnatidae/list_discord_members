@@ -1,22 +1,27 @@
-import fs from "node:fs";
+import { getUsernames } from "./getUsernames.ts";
+import { serve } from '@hono/node-server'
+import { Hono } from "hono";
 
-const response = await fetch(
-	`https://discord.com/api/v10/guilds/${process.env.GUILD_ID}/members?limit=${process.env.LIMIT}`,
-	{
-		method: "GET",
-		headers: {
-			Accept: "application/json",
-			Authorization: `Bot ${process.env.BOT_TOKEN}`,
-		},
-	},
-).then((res) => res.json());
-
-const usernames: list = (await response).map((member) => member.user.username);
 // Outputs as a new name per line
-fs.writeFile("./userlist.csv", usernames.join("\n"), err => {
-    if (err) {
-        console.error(err)
-    } else {
-        console.log("Output writen to file ./userlist.csv")
-    }
+// import fs from "node:fs";
+// fs.writeFile("./userlist.csv", usernames.join("\n"), (err) => {
+// 	if (err) {
+// 		console.error(err);
+// 	} else {
+// 		console.log("Output writen to file ./userlist.csv");
+// 	}
+// });
+
+const app = new Hono();
+
+app.get("/", async (c) => {
+    const usernames = await getUsernames()
+    return c.json({
+        users: usernames
+    })
+});
+
+serve({
+  fetch: app.fetch,
+  port: 8304,
 })
