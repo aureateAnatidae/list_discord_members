@@ -9,8 +9,13 @@ export async function getUsernames() {
 			},
 		},
 	).then((res) => res.json());
-	const usernames: list = (await response).map(
-		(member) => member.user.username,
-	);
-	return usernames;
+	const usernames = Array(response.length * 3);
+	for (let i = 0; i < response.length; i++) {
+		usernames.push(response[i].user.global_name);
+		usernames.push(response[i].user.username);
+		if (response[i].nick) {
+			usernames[i] = (response[i].nick);
+		}
+	}
+	return usernames.filter((element) => element);
 }
